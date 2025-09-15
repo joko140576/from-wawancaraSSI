@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Form Hasil Wawancara</title>
+  <style>
+    :root{--accent:#1f6feb;--card:#ffffff;--muted:#666}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:#f4f6fb; margin:20px}
+    .container{max-width:1000px;margin:0 auto}
+    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(20,30,60,0.06)}
+    header{display:flex;gap:18px;align-items:center;margin-bottom:12px}
+    .logo-frame{width:150px;height:150px;border:2px dashed #d0d7e6;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff}
+    .logo-frame img{width:100%;height:100%;object-fit:cover}
+    .upload-controls{font-size:13px;color:var(--muted)}
+    h1{font-size:18px;margin:0}
+    form .section{margin-top:14px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    label{display:block;font-weight:600;margin-bottom:6px;font-size:13px}
+    input[type=text], textarea, select{width:100%;padding:8px;border-radius:8px;border:1px solid #d7dee9;font-size:14px}
+    textarea{min-height:80px;resize:vertical}
+    .rating-row{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;align-items:center}
+    .rating-row .label{grid-column:1/span 1;font-weight:600;font-size:13px}
+    .rating-row .controls{grid-column:2/span 5;display:flex;gap:6px}
+    .rating-row select{flex:1;max-width:160px}
+    .full{grid-column:1/span 2}
+    .buttons{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+    .btn{padding:10px 14px;border-radius:8px;border:0;background:var(--accent);color:white;cursor:pointer}
+    .btn.secondary{background:#6b7280}
+    .btn.danger {background: darkred;}
+    .btn.primary {background: darkblue;}
+    /* printable styles */
+    @media print{
+      body{background:white;margin:0}
+      .no-print{display:none}
+      .card{box-shadow:none;border-radius:0;padding:6mm}
+      .logo-frame{border:1px solid #ddd}
+    }
+    /* small screens */
+    @media (max-width:700px){.grid{grid-template-columns:1fr}.rating-row{grid-template-columns:1fr}} 
+    .final-row{display:flex;gap:12px;align-items:center}
+    .final-row label{font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <header>
+        <div class="logo-frame" id="photoFrame"> 
+          <span style="color:#99a0b3;text-align:center;padding:8px">Foto Pelamar<br />(klik untuk pilih)</span>
+        </div>
+        <div style="flex:1">
+          <h1>FORM HASIL WAWANCARA </h1>
+          <div class="upload-controls">Isi foto dengan klik area foto atau gunakan tombol <strong>"Pilih Foto"</strong>.</div>
+        </div>
+      </header>
+
+      <form id="formInterview">
+        <!-- upload -->
+        <div style="display:flex;gap:8px;margin-bottom:12px" class="no-print">
+          <input type="file" id="photoInput" accept="image/*" style="display:none" />
+          <button type="button" class="btn primary" onclick="document.getElementById('photoInput').click()">Pilih Foto</button>
+          <button type="button" class="btn danger" onclick="clearPhoto()">Hapus Foto</button>
+        </div>
+
+        <!-- Data pribadi -->
+        <div class="section">
+          <h3>1. Data Pribadi</h3>
+          <div class="grid">
+            <div>
+              <label>Nama Pelamar</label>
+              <input type="text" id="nama" placeholder="Nama lengkap" required />
+            </div>
+            <div>
+              <label>Pendidikan Terakhir</label>
+              <input type="text" id="pendidikan" placeholder="Contoh: S1, D3, SMA" />
+            </div>
+            <div>
+              <label>Jurusan</label>
+              <input type="text" id="jurusan" placeholder="Jurusan / Program Studi" />
+            </div>
+            <div>
+              <label>Pengalaman</label>
+              <input type="text" id="pengalaman" placeholder="Contoh: 2 tahun di bagian ..." />
+            </div>
+          </div>
+        </div>
+
+        <!-- kemampuan teknis -->
+        <div class="section">
+          <h3>2. Kemampuan Dasar Teknisi (beri nilai 1 - 5)</h3>
+          <div class="grid">
+            <div class="rating-row">
+              <div class="label">Komputer (basic)</div>
+              <div class="controls">
+                <select id="r_komputer">
+                  <option value="1">1 - Sangat kurang</option>
+                  <option value="2">2 - Kurang</option>
+                  <option value="3" selected>3 - Cukup</option>
+                  <option value="4">4 - Baik</option>
+                  <option value="5">5 - Sangat baik</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="rating-row">
+              <div class="label">Bahasa Asing</div>
+              <div class="controls"><select id="r_bahasa"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div>
+            </div>
+
+            <div class="rating-row">
+              <div class="label">Software</div>
+              <div class="controls"><select id="r_software"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div>
+            </div>
+
+            <div class="rating-row">
+              <div class="label">Hardware (perbaikan)</div>
+              <div class="controls"><select id="r_hardware"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div>
+            </div>
+
+            <div class="rating-row">
+              <div class="label">Analisa Data / Angka</div>
+              <div class="controls"><select id="r_analisa"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- kemampuan non teknis -->
+        <div class="section">
+          <h3>3. Kemampuan Non-Teknis (beri nilai 1 - 5)</h3>
+          <div class="grid">
+            <div class="rating-row"><div class="label">Komunikasi</div><div class="controls"><select id="n_komunikasi"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+            <div class="rating-row"><div class="label">Inisiatif & Proaktif</div><div class="controls"><select id="n_inisiatif"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+            <div class="rating-row"><div class="label">Etika / Moral</div><div class="controls"><select id="n_etika"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+            <div class="rating-row"><div class="label">Adaptasi</div><div class="controls"><select id="n_adaptasi"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+            <div class="rating-row"><div class="label">Disiplin</div><div class="controls"><select id="n_disiplin"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+            <div class="rating-row"><div class="label">Semangat</div><div class="controls"><select id="n_semangat"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Kelebihan dan Kekurangan</h3>
+          <textarea id="kelebihan" placeholder="Tulis kelebihan..." class="full"></textarea>
+          <textarea id="kekurangan" placeholder="Tulis kekurangan..." class="full" style="margin-top:8px"></textarea>
+        </div>
+
+        <div class="section">
+          <h3>Kondisi Kesehatan</h3>
+          <div class="grid">
+            <div>
+              <label>Apakah memiliki penyakit kronis / menular / buta warna / penyakit berat lain?</label>
+              <select id="kesehatan">
+                <option value="Tidak" selected>Tidak</option>
+                <option value="Ya - kronis">Ya - Kronis</option>
+                <option value="Ya - menular">Ya - Menular</option>
+                <option value="Ya - buta warna">Ya - Buta Warna</option>
+                <option value="Ya - lain">Ya - Lainnya (sebutkan)</option>
+              </select>
+            </div>
+            <div>
+              <label>Jika ya, jelaskan</label>
+              <input type="text" id="kesehatan_detail" placeholder="Keterangan (kosong bila tidak)" />
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Referensi</h3>
+          <div class="grid">
+            <div>
+              <label>Apakah punya referensi?</label>
+              <select id="punya_ref"><option value="Tidak" selected>Tidak</option><option value="Ya">Ya</option></select>
+            </div>
+            <div>
+              <label>Nama & Jabatan Referensi</label>
+              <input type="text" id="ref_detail" placeholder="Nama - Jabatan (kosong bila tidak)" />
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Penilaian Pewawancara</h3>
+          <div class="final-row">
+            <label>Keputusan:</label>
+            <select id="keputusan">
+              <option value="Diterima">Diterima</option>
+              <option value="Tidak Diterima">Tidak Diterima</option>
+            </select>
+            <label style="margin-left:12px">Catatan:</label>
+            <input type="text" id="catatan_penilai" placeholder="Catatan singkat pewawancara" style="flex:1" />
+          </div>
+        </div>
+
+        <div class="buttons no-print">
+          <button type="button" class="btn" onclick="previewPrint()">Print / Simpan ke PDF</button>
+          <button type="reset" class="btn secondary">Reset Form</button>
+        </div>
+      </form>
+
+    </div>
+
+    <p style="margin-top:10px;color:#556">Tips: gunakan fitur Print pada browser -> pilih "Simpan sebagai PDF" untuk menyimpan hasil wawancara sebagai PDF. Tombol Print di atas akan otomatis menyesuaikan tampilan untuk dicetak.</p>
+  </div>
+
+  <script>
+    const photoInput = document.getElementById('photoInput');
+    const photoFrame = document.getElementById('photoFrame');
+
+    photoFrame.addEventListener('click', ()=> document.getElementById('photoInput').click());
+    photoInput.addEventListener('change', e=>{
+      const f = e.target.files && e.target.files[0];
+      if(!f) return;
+      const url = URL.createObjectURL(f);
+      photoFrame.innerHTML = '';
+      const img = document.createElement('img'); img.src = url; img.alt = 'Foto Pelamar';
+      photoFrame.appendChild(img);
+    });
+    function clearPhoto(){ photoInput.value=''; photoFrame.innerHTML = '<span style="color:#99a0b3;text-align:center;padding:8px">Foto Pelamar<br />(klik untuk pilih)</span>'; }
+
+    function collectData(){
+      const get = id => document.getElementById(id).value;
+      const data = {
+        nama: get('nama'), pendidikan: get('pendidikan'), jurusan: get('jurusan'), pengalaman: get('pengalaman'),
+        r_komputer:get('r_komputer'), r_bahasa:get('r_bahasa'), r_software:get('r_software'), r_hardware:get('r_hardware'), r_analisa:get('r_analisa'),
+        n_komunikasi:get('n_komunikasi'), n_inisiatif:get('n_inisiatif'), n_etika:get('n_etika'), n_adaptasi:get('n_adaptasi'), n_disiplin:get('n_disiplin'), n_semangat:get('n_semangat'),
+        kelebihan: get('kelebihan'), kekurangan:get('kekurangan'), kesehatan:get('kesehatan'), kesehatan_detail:get('kesehatan_detail'),
+        punya_ref:get('punya_ref'), ref_detail:get('ref_detail'), keputusan:get('keputusan'), catatan:get('catatan_penilai')
+      };
+      return data;
+    }
+
+    function previewPrint(){
+      // populate a printable view by converting inputs to readonly text before printing
+      const form = document.getElementById('formInterview');
+      const elems = form.querySelectorAll('input, select, textarea, button');
+      // hide buttons just for print
+      window.onbeforeprint = () => {
+        // convert all inputs/selects/textarea to text nodes for print
+        const data = collectData();
+        // replace form with summary clone
+        const card = document.querySelector('.card');
+        const clone = card.cloneNode(true);
+        // remove interactive elements in clone and replace with values
+        const inputs = clone.querySelectorAll('input,select,textarea,button');
+        inputs.forEach(i=>{ 
+          if(i.tagName.toLowerCase()==='button') i.remove();
+          else {
+            const span = document.createElement('div');
+            span.style.padding='6px 0';
+            span.textContent = i.value || '';
+            i.parentNode.replaceChild(span,i);
+          }
+        });
+        // ensure photo is visible: copy selected image if any
+        const originalPhoto = document.getElementById('photoFrame');
+        const clonedPhoto = clone.querySelector('#photoFrame');
+        if(originalPhoto && originalPhoto.querySelector('img')){
+          clonedPhoto.innerHTML = '';
+          const img = document.createElement('img'); img.src = originalPhoto.querySelector('img').src; img.style.width='100%'; img.style.height='100%'; img.style.objectFit='cover';
+          clonedPhoto.appendChild(img);
+        }
+        // add the clone to body and hide original
+        card.style.display='none';
+        clone.id = 'print_clone';
+        document.body.appendChild(clone);
+      };
+      window.onafterprint = () => {
+        const c = document.getElementById('print_clone');
+        if(c) c.remove();
+        document.querySelector('.card').style.display='block';
+        window.onbeforeprint = null; window.onafterprint = null;
+      };
+
+      // trigger print dialog
+      window.print();
+    }
+
+  </script>
+</body>
+</html>
