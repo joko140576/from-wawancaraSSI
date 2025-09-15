@@ -29,14 +29,12 @@
     .btn.secondary{background:#6b7280}
     .btn.danger {background: darkred;}
     .btn.primary {background: darkblue;}
-    /* printable styles */
     @media print{
       body{background:white;margin:0}
       .no-print{display:none}
       .card{box-shadow:none;border-radius:0;padding:6mm}
       .logo-frame{border:1px solid #ddd}
     }
-    /* small screens */
     @media (max-width:700px){.grid{grid-template-columns:1fr}.rating-row{grid-template-columns:1fr}} 
     .final-row{display:flex;gap:12px;align-items:center}
     .final-row label{font-weight:600}
@@ -94,6 +92,7 @@
             <div>
               <label>SIM</label>
               <select id="sim">
+                <option value="Belum Ada" selected>Belum Ada</option>
                 <option value="Motor">Motor</option>
                 <option value="Mobil">Mobil</option>
                 <option value="Motor & Mobil">Motor & Mobil</option>
@@ -124,39 +123,82 @@
 
         <!-- kemampuan teknis -->
         <div class="section">
-          <h3>2. Kemampuan Dasar Teknisi (beri nilai 1 - 5)</h3>
+          <h3>2. Kemampuan Dasar Teknisi </h3>
+        <h4>beri nilai : 1 = Sangat kurang, 2 = Kurang, 3 = Cukup, 4 = Baik, 5 = Sangat baik </h4>
           <div class="grid">
             <div class="rating-row">
               <div class="label">Komputer (basic)</div>
               <div class="controls">
                 <select id="r_komputer">
-                  <option value="1">1 - Sangat kurang</option>
-                  <option value="2">2 - Kurang</option>
-                  <option value="3" selected>3 - Cukup</option>
-                  <option value="4">4 - Baik</option>
-                  <option value="5">5 - Sangat baik</option>
+                  <option value="" selected>- Pilih -</option>
+                  <option value="0">No Asked</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
                 </select>
               </div>
             </div>
 
             <div class="rating-row">
               <div class="label">Bahasa Asing</div>
-              <div class="controls"><select id="r_bahasa"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div>
+              <div class="controls">
+                <select id="r_bahasa">
+                  <option value="" selected>- Pilih -</option>
+                  <option value="0">No Asked</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
             </div>
 
             <div class="rating-row">
               <div class="label">Software</div>
-              <div class="controls"><select id="r_software"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div>
+              <div class="controls">
+                <select id="r_software">
+                  <option value="" selected>- Pilih -</option>
+                  <option value="0">No Asked</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
             </div>
 
             <div class="rating-row">
               <div class="label">Hardware (perbaikan)</div>
-              <div class="controls"><select id="r_hardware"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div>
+              <div class="controls">
+                <select id="r_hardware">
+                  <option value="" selected>- Pilih -</option>
+                  <option value="0">No Asked</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
             </div>
 
             <div class="rating-row">
               <div class="label">Analisa Data / Angka</div>
-              <div class="controls"><select id="r_analisa"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div>
+              <div class="controls">
+                <select id="r_analisa">
+                  <option value="" selected>- Pilih -</option>
+                  <option value="0">No Asked</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -165,12 +207,12 @@
         <div class="section">
           <h3>3. Kemampuan Non-Teknis (beri nilai 1 - 5)</h3>
           <div class="grid">
-            <div class="rating-row"><div class="label">Komunikasi</div><div class="controls"><select id="n_komunikasi"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
-            <div class="rating-row"><div class="label">Inisiatif & Proaktif</div><div class="controls"><select id="n_inisiatif"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
-            <div class="rating-row"><div class="label">Etika / Moral</div><div class="controls"><select id="n_etika"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
-            <div class="rating-row"><div class="label">Adaptasi</div><div class="controls"><select id="n_adaptasi"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
-            <div class="rating-row"><div class="label">Disiplin</div><div class="controls"><select id="n_disiplin"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
-            <div class="rating-row"><div class="label">Semangat</div><div class="controls"><select id="n_semangat"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+            <div class="rating-row"><div class="label">Komunikasi</div><div class="controls"><select id="n_komunikasi"><option value="" selected>- Pilih -</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+            <div class="rating-row"><div class="label">Inisiatif & Proaktif</div><div class="controls"><select id="n_inisiatif"><option value="" selected>- Pilih -</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+            <div class="rating-row"><div class="label">Etika / Moral</div><div class="controls"><select id="n_etika"><option value="" selected>- Pilih -</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+            <div class="rating-row"><div class="label">Adaptasi</div><div class="controls"><select id="n_adaptasi"><option value="" selected>- Pilih -</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+            <div class="rating-row"><div class="label">Disiplin</div><div class="controls"><select id="n_disiplin"><option value="" selected>- Pilih -</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></div>
+            <div class="rating-row"><div class="label">Semangat</div><div class="controls"><select id="n_semangat"><option value="" selected>- Pilih -</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></div>
           </div>
         </div>
 
@@ -248,64 +290,63 @@
   </div>
 
   <script>
-    const photoInput = document.getElementById('photoInput');
-    const photoFrame = document.getElementById('photoFrame');
+  const photoInput = document.getElementById('photoInput');
+  const photoFrame = document.getElementById('photoFrame');
 
-    photoFrame.addEventListener('click', ()=> document.getElementById('photoInput').click());
-    photoInput.addEventListener('change', e=>{
-      const f = e.target.files && e.target.files[0];
-      if(!f) return;
-      const url = URL.createObjectURL(f);
-      photoFrame.innerHTML = '';
-      const img = document.createElement('img'); img.src = url; img.alt = 'Foto Pelamar';
-      photoFrame.appendChild(img);
-    });
-    function clearPhoto(){ photoInput.value=''; photoFrame.innerHTML = '<span style="color:#99a0b3;text-align:center;padding:8px">Foto Pelamar<br />(klik untuk pilih)</span>'; }
+  photoFrame.addEventListener('click', ()=> document.getElementById('photoInput').click());
+  photoInput.addEventListener('change', e=>{
+    const f = e.target.files && e.target.files[0];
+    if(!f) return;
+    const url = URL.createObjectURL(f);
+    photoFrame.innerHTML = '';
+    const img = document.createElement('img'); 
+    img.src = url; 
+    img.alt = 'Foto Pelamar';
+    photoFrame.appendChild(img);
+  });
+  function clearPhoto(){ 
+    photoInput.value=''; 
+    photoFrame.innerHTML = '<span style="color:#99a0b3;text-align:center;padding:8px">Foto Pelamar<br />(klik untuk pilih)</span>'; 
+  }
 
-    function toggleCatatan(){
-      const box = document.getElementById('catatanBox');
-      box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
-    }
+  function toggleCatatan(){
+    const box = document.getElementById('catatanBox');
+    box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+  }
 
-    function previewPrint(){
-      window.onbeforeprint = () => {
-        const card = document.querySelector('.card');
-        const clone = card.cloneNode(true);
+  function previewPrint(){
+    window.onbeforeprint = () => {
+      const card = document.querySelector('.card');
+      const clone = card.cloneNode(true);
 
-        // ubah semua input/select/textarea/button jadi teks biasa
-        const inputs = clone.querySelectorAll('input,select,textarea,button');
-        inputs.forEach(i => { 
-          if(i.tagName.toLowerCase() === 'button') {
-            i.remove();
-          } else {
-            const span = document.createElement('div');
-            span.style.padding = '6px 0';
-            if(i.tagName.toLowerCase() === 'select'){
-              span.textContent = i.options[i.selectedIndex]?.text || i.value || '';
-            } else {
-              span.textContent = i.value || '';
-            }
-            i.parentNode.replaceChild(span, i);
-          }
-        });
+      // ambil semua input dari form asli
+      const original = card.querySelectorAll('input, select, textarea');
+      const cloned = clone.querySelectorAll('input, select, textarea');
 
-        // copy foto kalau ada
-        const originalPhoto = document.getElementById('photoFrame');
-        const clonedPhoto = clone.querySelector('#photoFrame');
-        if(originalPhoto && originalPhoto.querySelector('img')){
-          const img = originalPhoto.querySelector('img').cloneNode(true);
-          clonedPhoto.innerHTML = '';
-          clonedPhoto.appendChild(img);
+      original.forEach((el, idx)=>{
+        const span = document.createElement('span');
+        span.style.display='inline-block'; 
+        span.style.minHeight='18px';
+
+        if(el.tagName.toLowerCase()==='select'){
+          // ambil teks option yang terpilih
+          span.textContent = el.selectedIndex >= 0 ? el.options[el.selectedIndex].text : '';
+        } else if(el.type==='file'){ 
+          span.textContent=''; 
+        } else { 
+          span.textContent = el.value || ''; 
         }
 
-        // tampilkan hanya clone saat print
-        document.body.innerHTML = '';
-        document.body.appendChild(clone);
-      };
+        cloned[idx].parentNode.replaceChild(span, cloned[idx]);
+      });
 
-      window.print();
-      window.location.reload();
-    }
-  </script>
+      document.body.innerHTML=''; 
+      document.body.appendChild(clone);
+    };
+    window.onafterprint = ()=> location.reload();
+    window.print();
+  }
+</script>
+
 </body>
 </html>
