@@ -72,6 +72,14 @@
               <input type="text" id="nama" placeholder="Nama lengkap" required />
             </div>
             <div>
+              <label>Nama COU</label>
+              <input type="text" id="nama_cou" placeholder="Nama COU terkait" />
+            </div>
+            <div>
+              <label>Usia</label>
+              <input type="text" id="usia" placeholder="Usia pelamar" />
+            </div>
+            <div>
               <label>Pendidikan Terakhir</label>
               <input type="text" id="pendidikan" placeholder="Contoh: S1, D3, SMA" />
             </div>
@@ -82,6 +90,34 @@
             <div>
               <label>Pengalaman</label>
               <input type="text" id="pengalaman" placeholder="Contoh: 2 tahun di bagian ..." />
+            </div>
+            <div>
+              <label>SIM</label>
+              <select id="sim">
+                <option value="Motor">Motor</option>
+                <option value="Mobil">Mobil</option>
+                <option value="Motor & Mobil">Motor & Mobil</option>
+              </select>
+            </div>
+            <div>
+              <label>Alamat Rumah</label>
+              <input type="text" id="alamat" placeholder="Pribadi / Kontrak" />
+            </div>
+            <div>
+              <label>No HP Pihak Keluarga</label>
+              <input type="text" id="hp_keluarga" placeholder="Orang tua / Saudara" />
+            </div>
+            <div>
+              <label>Mengetahui tentang PT SSI</label>
+              <select id="mengetahui_ptssi">
+                <option value="Mengetahui">Mengetahui</option>
+                <option value="Cukup">Cukup</option>
+                <option value="Tidak">Tidak</option>
+              </select>
+            </div>
+            <div>
+              <label>Jarak rumah ke kantor</label>
+              <input type="text" id="jarak_rumah" placeholder="Contoh: 5 km" />
             </div>
           </div>
         </div>
@@ -191,6 +227,15 @@
           </div>
         </div>
 
+        <!-- Catatan Tambahan -->
+        <div class="section" style="text-align:right">
+          <button type="button" class="btn secondary no-print" onclick="toggleCatatan()">Tambah Catatan</button>
+          <div id="catatanBox" style="display:none;margin-top:8px">
+            <label for="catatan_tambahan" style="font-weight:600;display:block;margin-bottom:4px;text-align:left">Catatan Tambahan</label>
+            <textarea id="catatan_tambahan" placeholder="Tulis catatan tambahan di sini..." style="width:100%;min-height:60px"></textarea>
+          </div>
+        </div>
+
         <div class="buttons no-print">
           <button type="button" class="btn" onclick="previewPrint()">Print / Simpan ke PDF</button>
           <button type="reset" class="btn secondary">Reset Form</button>
@@ -217,64 +262,50 @@
     });
     function clearPhoto(){ photoInput.value=''; photoFrame.innerHTML = '<span style="color:#99a0b3;text-align:center;padding:8px">Foto Pelamar<br />(klik untuk pilih)</span>'; }
 
-    function collectData(){
-      const get = id => document.getElementById(id).value;
-      const data = {
-        nama: get('nama'), pendidikan: get('pendidikan'), jurusan: get('jurusan'), pengalaman: get('pengalaman'),
-        r_komputer:get('r_komputer'), r_bahasa:get('r_bahasa'), r_software:get('r_software'), r_hardware:get('r_hardware'), r_analisa:get('r_analisa'),
-        n_komunikasi:get('n_komunikasi'), n_inisiatif:get('n_inisiatif'), n_etika:get('n_etika'), n_adaptasi:get('n_adaptasi'), n_disiplin:get('n_disiplin'), n_semangat:get('n_semangat'),
-        kelebihan: get('kelebihan'), kekurangan:get('kekurangan'), kesehatan:get('kesehatan'), kesehatan_detail:get('kesehatan_detail'),
-        punya_ref:get('punya_ref'), ref_detail:get('ref_detail'), keputusan:get('keputusan'), catatan:get('catatan_penilai')
-      };
-      return data;
+    function toggleCatatan(){
+      const box = document.getElementById('catatanBox');
+      box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
     }
 
     function previewPrint(){
-      // populate a printable view by converting inputs to readonly text before printing
-      const form = document.getElementById('formInterview');
-      const elems = form.querySelectorAll('input, select, textarea, button');
-      // hide buttons just for print
       window.onbeforeprint = () => {
-        // convert all inputs/selects/textarea to text nodes for print
-        const data = collectData();
-        // replace form with summary clone
         const card = document.querySelector('.card');
         const clone = card.cloneNode(true);
-        // remove interactive elements in clone and replace with values
+
+        // ubah semua input/select/textarea/button jadi teks biasa
         const inputs = clone.querySelectorAll('input,select,textarea,button');
-        inputs.forEach(i=>{ 
-          if(i.tagName.toLowerCase()==='button') i.remove();
-          else {
+        inputs.forEach(i => { 
+          if(i.tagName.toLowerCase() === 'button') {
+            i.remove();
+          } else {
             const span = document.createElement('div');
-            span.style.padding='6px 0';
-            span.textContent = i.value || '';
-            i.parentNode.replaceChild(span,i);
+            span.style.padding = '6px 0';
+            if(i.tagName.toLowerCase() === 'select'){
+              span.textContent = i.options[i.selectedIndex]?.text || i.value || '';
+            } else {
+              span.textContent = i.value || '';
+            }
+            i.parentNode.replaceChild(span, i);
           }
         });
-        // ensure photo is visible: copy selected image if any
+
+        // copy foto kalau ada
         const originalPhoto = document.getElementById('photoFrame');
         const clonedPhoto = clone.querySelector('#photoFrame');
         if(originalPhoto && originalPhoto.querySelector('img')){
+          const img = originalPhoto.querySelector('img').cloneNode(true);
           clonedPhoto.innerHTML = '';
-          const img = document.createElement('img'); img.src = originalPhoto.querySelector('img').src; img.style.width='100%'; img.style.height='100%'; img.style.objectFit='cover';
           clonedPhoto.appendChild(img);
         }
-        // add the clone to body and hide original
-        card.style.display='none';
-        clone.id = 'print_clone';
+
+        // tampilkan hanya clone saat print
+        document.body.innerHTML = '';
         document.body.appendChild(clone);
       };
-      window.onafterprint = () => {
-        const c = document.getElementById('print_clone');
-        if(c) c.remove();
-        document.querySelector('.card').style.display='block';
-        window.onbeforeprint = null; window.onafterprint = null;
-      };
 
-      // trigger print dialog
       window.print();
+      window.location.reload();
     }
-
   </script>
 </body>
 </html>
