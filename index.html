@@ -15,7 +15,28 @@
     .upload-controls{font-size:13px;color:var(--muted)}
     h1{font-size:18px;margin:0}
     form .section{margin-top:14px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  
+        /* rapikan grid antar kolom */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px; /* jarak antar kolom */
+    }
+
+    /* rapikan label biar tidak berhimpit dengan input */
+    label {
+      display: block;
+      margin-bottom: 6px; /* jarak label dan input */
+      font-weight: 600;   /* biar lebih tegas */
+    }
+
+    /* rapikan antar field di dalam grid */
+    .grid > div {
+      margin-bottom: 12px;
+      min-height: 70px;
+    }
+
+
     label{display:block;font-weight:600;margin-bottom:6px;font-size:13px}
     input[type=text], textarea, select{width:100%;padding:8px;border-radius:8px;border:1px solid #d7dee9;font-size:14px}
     textarea{min-height:80px;resize:vertical}
@@ -55,10 +76,21 @@
       }
 
       .note-box strong{
-        display:inline-block;
+        display:inline-block; margin-right: ;
         margin-right:8px;
         font-weight:700;
       }
+
+
+      .referensi-box {
+        border: 2px solid #d1d5db;
+        border-radius: 10px;
+        padding: 15px;
+        background: #f9fbff;
+        margin-top: 10px;
+        margin-bottom: 20px; /* kasih jarak ke bawah biar tidak menempel */
+      }
+
 
 
     @media print{
@@ -96,7 +128,6 @@
         <div style="display:flex;gap:8px;margin-bottom:12px" class="no-print">
           <input type="file" id="photoInput" accept="image/*" style="display:none" />
           <button type="button" class="btn primary" onclick="document.getElementById('photoInput').click()">Pilih Foto</button>
-          <button type="button" class="btn danger" onclick="clearPhoto()">Hapus Foto</button>
         </div>
 
        <div class="section"> 
@@ -112,6 +143,7 @@
             </div>
           </div>
         </div>
+        
         
         <!-- Data pribadi -->
         <div class="section">
@@ -130,6 +162,15 @@
               <input type="text" id="usia" placeholder="Usia pelamar" />
             </div>
             <div>
+              <label>Status Pernikahan</label>
+              <select id="status_pernikahan" required>
+                <option value="">-- Pilih Status --</option>
+                <option value="belum_menikah">Belum menikah</option>
+                <option value="sudah_menikah">Sudah menikah</option>
+                <option value="cerai">Status cerai</option>
+              </select>
+            </div>
+            <div>
               <label>Pendidikan Terakhir</label>
               <input type="text" id="pendidikan" placeholder="Contoh: S1, D3, SMA" />
             </div>
@@ -142,17 +183,29 @@
               <input type="text" id="pengalaman" placeholder="Contoh: 2 tahun di bagian ..." />
             </div>
             <div>
-              <label>SIM</label>
-              <select id="sim">
-                <option value="Belum Ada" selected>Belum Ada</option>
-                <option value="Motor">Motor</option>
-                <option value="Mobil">Mobil</option>
-                <option value="Motor & Mobil">Motor & Mobil</option>
-              </select>
+              <label>Catatan Pengalaman</label>
+              <textarea id="catatan_pengalaman" rows="4" placeholder="Tuliskan catatan pengalaman pelamar di sini..."></textarea>
             </div>
+                      
             <div>
               <label>Alamat Rumah</label>
               <input type="text" id="alamat" placeholder="Pribadi / Kontrak" />
+            </div>
+
+            <div>
+              <label>Status Rumah</label>
+              <select id="status_rumah" required>
+                <option value="">-- Pilih Status Rumah --</option>
+                <option value="pribadi">Rumah Pribadi</option>
+                <option value="orang_tua">Rumah Orang Tua</option>
+                <option value="kontrak">Rumah Kontrak/Sewa</option>
+                <option value="saudara">Rumah Saudara</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Waktu tempuh rumah ke kantor</label>
+              <input type="text" id="jarak_rumah" placeholder="Contoh: 1 jam" />
             </div>
             <div>
               <label>No HP Pihak Keluarga</label>
@@ -166,12 +219,41 @@
                 <option value="Tidak">Tidak</option>
               </select>
             </div>
-            <div>
-              <label>Jarak rumah ke kantor</label>
-              <input type="text" id="jarak_rumah" placeholder="Contoh: 5 km" />
-            </div>
+            
           </div>
         </div>
+
+        <!-- Referensi -->
+        <div class="section">
+          <h3>Referensi</h3>
+          <div class="referensi-box">
+            <div class="grid">
+              <div>
+                <label>Apakah punya referensi?</label>
+                <select id="punya_ref">
+                  <option value="Tidak" selected>Tidak</option>
+                  <option value="Ya">Ya</option>
+                </select>
+              </div>
+              <div>
+                <label>Nama & Jabatan Referensi</label>
+                <input type="text" id="ref_detail" placeholder="Nama - Jabatan (kosong bila tidak)" />
+              </div>
+            </div>
+          </div>
+       
+
+            <div>
+              <label>SIM  Surat Izin Mengemudi </label>
+              <select id="sim">
+                <option value="Belum Ada" selected>Belum Ada</option>
+                <option value="Motor">Motor</option>
+                <option value="Mobil">Mobil</option>
+                <option value="Motor & Mobil">Motor & Mobil</option>
+              </select>
+            </div>
+        </div>
+
 
         <!-- kemampuan teknis -->
         <div class="section">
@@ -297,20 +379,7 @@
           </div>
         </div>
 
-        <div class="section">
-          <h3>Referensi</h3>
-          <div class="grid">
-            <div>
-              <label>Apakah punya referensi?</label>
-              <select id="punya_ref"><option value="Tidak" selected>Tidak</option><option value="Ya">Ya</option></select>
-            </div>
-            <div>
-              <label>Nama & Jabatan Referensi</label>
-              <input type="text" id="ref_detail" placeholder="Nama - Jabatan (kosong bila tidak)" />
-            </div>
-          </div>
-        </div>
-
+        
         <div class="section">
           <h3>Penilaian Pewawancara</h3>
           <div class="final-row">
@@ -335,7 +404,9 @@
 
         <div class="buttons no-print">
           <button type="button" class="btn" onclick="previewPrint()">Print / Simpan ke PDF</button>
-          <button type="reset" class="btn secondary">Reset Form</button>
+          <button type="button" class="btn danger" onclick="clearAllData()">Hapus Semua Data (Termasuk Foto)</button>
+
+          
         </div>
       </form>
 
@@ -344,37 +415,73 @@
     <p style="margin-top:10px;color:#556">Tips: gunakan fitur Print pada browser -> pilih "Simpan sebagai PDF" untuk menyimpan hasil wawancara sebagai PDF. Tombol Print di atas akan otomatis menyesuaikan tampilan untuk dicetak.</p>
   </div>
 
+
   <script>
+
   const photoInput = document.getElementById('photoInput');
   const photoFrame = document.getElementById('photoFrame');
 
-  photoFrame.addEventListener('click', ()=> document.getElementById('photoInput').click());
+  // --- Upload Foto ---
   photoInput.addEventListener('change', e=>{
     const f = e.target.files && e.target.files[0];
     if(!f) return;
-    const url = URL.createObjectURL(f);
-    photoFrame.innerHTML = '';
-    const img = document.createElement('img'); 
-    img.src = url; 
-    img.alt = 'Foto Pelamar';
-    photoFrame.appendChild(img);
-  });
-  function clearPhoto(){ 
-    photoInput.value=''; 
-    photoFrame.innerHTML = '<span style="color:#99a0b3;text-align:center;padding:8px">Foto Pelamar<br />(klik untuk pilih)</span>'; 
-  }
+    const reader = new FileReader();
+    reader.onload = function(evt){
+      photoFrame.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = evt.target.result;
+      img.alt = 'Foto Pelamar';
+      photoFrame.appendChild(img);
 
+      // simpan foto ke localStorage (base64)
+      localStorage.setItem("foto_pelamar", evt.target.result);
+    };
+    reader.readAsDataURL(f);
+  });
+
+  // --- Catatan toggle ---
   function toggleCatatan(){
     const box = document.getElementById('catatanBox');
     box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
   }
 
+  // --- Simpan otomatis semua input ke localStorage ---
+  document.querySelectorAll("input, textarea, select").forEach(el => {
+    el.addEventListener("input", () => {
+      localStorage.setItem(el.id, el.value);
+    });
+  });
+
+  // --- Ambil data dari localStorage saat reload ---
+  window.addEventListener("load", () => {
+    document.querySelectorAll("input, textarea, select").forEach(el => {
+      if (localStorage.getItem(el.id)) {
+        el.value = localStorage.getItem(el.id);
+      }
+    });
+
+    // load foto jika ada
+    if(localStorage.getItem("foto_pelamar")){
+      photoFrame.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = localStorage.getItem("foto_pelamar");
+      img.alt = "Foto Pelamar";
+      photoFrame.appendChild(img);
+    }
+  });
+
+  // --- Fungsi Print / Save PDF ---
   function previewPrint(){
+    const konfirmasi = confirm("Mau disimpan dalam PDF atau Cancel?");
+    if (!konfirmasi) {
+      alert("Batal simpan, data tetap ada di form.");
+      return;
+    }
+
     window.onbeforeprint = () => {
       const card = document.querySelector('.card');
       const clone = card.cloneNode(true);
 
-      // ambil semua input dari form asli
       const original = card.querySelectorAll('input, select, textarea');
       const cloned = clone.querySelectorAll('input, select, textarea');
 
@@ -384,7 +491,6 @@
         span.style.minHeight='18px';
 
         if(el.tagName.toLowerCase()==='select'){
-          // ambil teks option yang terpilih
           span.textContent = el.selectedIndex >= 0 ? el.options[el.selectedIndex].text : '';
         } else if(el.type==='file'){ 
           span.textContent=''; 
@@ -398,10 +504,36 @@
       document.body.innerHTML=''; 
       document.body.appendChild(clone);
     };
-    window.onafterprint = ()=> location.reload();
+
+   window.onafterprint = ()=>{
+      // simpan ulang foto sebelum clear semua data
+      const foto = localStorage.getItem("foto_pelamar");
+
+      // hapus semua localStorage
+      localStorage.clear();
+
+      // kembalikan foto agar tidak hilang
+      if (foto) {
+        localStorage.setItem("foto_pelamar", foto);
+      }
+
+      location.reload();
+    };
+
+
     window.print();
-  }
+      }
+
+      function clearAllData(){
+      if(confirm("Yakin mau hapus semua data termasuk foto?")){
+        localStorage.clear();
+        alert("Semua data termasuk foto sudah dihapus!");
+        location.reload();
+      }
+    }
+
 </script>
+
 
 </body>
 </html>
