@@ -29,6 +29,17 @@
     .btn.secondary{background:#6b7280}
     .btn.danger {background: darkred;}
     .btn.primary {background: darkblue;}
+    .tanggal-besar {
+          font-size: 16px;
+          font-weight: 400;
+          padding: 10px 14px;
+          border-radius: 10px;
+          border: 1px solid var(--accent);
+          background: #f9fbff;
+          color: #1f2937;
+          text-align: center;
+        }
+
     @media print{
       body{background:white;margin:0}
       .no-print{display:none}
@@ -61,6 +72,20 @@
           <button type="button" class="btn danger" onclick="clearPhoto()">Hapus Foto</button>
         </div>
 
+       <div class="section"> 
+          <h3>Tanggal & Pewawancara</h3>
+          <div class="grid">
+            <div>
+              <label>Tanggal Wawancara</label>
+              <input type="date" id="tanggal_wawancara" class="tanggal-besar" required />
+            </div>
+            <div>
+              <label>Nama Pewawancara (Divisi HCC)</label>
+              <input type="text" id="nama_pewawancara" placeholder="Isi nama pewawancara" required />
+            </div>
+          </div>
+        </div>
+        
         <!-- Data pribadi -->
         <div class="section">
           <h3>1. Data Pribadi</h3>
