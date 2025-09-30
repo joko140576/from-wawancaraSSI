@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="id">
 <head>
@@ -126,7 +127,7 @@
       <form id="formInterview">
         <!-- upload -->
         <div style="display:flex;gap:8px;margin-bottom:12px" class="no-print">
-          <input type="file" id="photoInput" accept="image/*" style="display:none" />
+          <input type="file"   id="photoInput" accept="image/*" style="display:none" />
           <button type="button" class="btn primary" onclick="document.getElementById('photoInput').click()">Pilih Foto</button>
         </div>
 
@@ -139,7 +140,7 @@
             </div>
             <div>
               <label>Nama Pewawancara (Divisi HCC)</label>
-              <input type="text" id="nama_pewawancara" placeholder="Isi nama pewawancara" required />
+              <input type="text" autocomplete="off"  id="nama_pewawancara" placeholder="Isi nama pewawancara" required />
             </div>
           </div>
         </div>
@@ -151,15 +152,15 @@
           <div class="grid">
             <div>
               <label>Nama Pelamar</label>
-              <input type="text" id="nama" placeholder="Nama lengkap" required />
+              <input type="text" autocomplete="off"  id="nama" placeholder="Nama lengkap" required />
             </div>
             <div>
               <label>Nama COU</label>
-              <input type="text" id="nama_cou" placeholder="Nama COU terkait" />
+              <input type="text" autocomplete="off"  id="nama_cou" placeholder="Nama COU terkait" />
             </div>
             <div>
               <label>Usia</label>
-              <input type="text" id="usia" placeholder="Usia pelamar" />
+              <input type="text" autocomplete="off"  id="usia" placeholder="Usia pelamar" />
             </div>
             <div>
               <label>Status Pernikahan</label>
@@ -172,15 +173,15 @@
             </div>
             <div>
               <label>Pendidikan Terakhir</label>
-              <input type="text" id="pendidikan" placeholder="Contoh: S1, D3, SMA" />
+              <input type="text" autocomplete="off"  id="pendidikan" placeholder="Contoh: S1, D3, SMA" />
             </div>
             <div>
               <label>Jurusan</label>
-              <input type="text" id="jurusan" placeholder="Jurusan / Program Studi" />
+              <input type="text" autocomplete="off"  id="jurusan" placeholder="Jurusan / Program Studi" />
             </div>
             <div>
               <label>Pengalaman</label>
-              <input type="text" id="pengalaman" placeholder="Contoh: 2 tahun di bagian ..." />
+              <input type="text" autocomplete="off"  id="pengalaman" placeholder="Contoh: 2 tahun di bagian ..." />
             </div>
             <div>
               <label>Catatan Pengalaman</label>
@@ -189,7 +190,7 @@
                       
             <div>
               <label>Alamat Rumah</label>
-              <input type="text" id="alamat" placeholder="Pribadi / Kontrak" />
+              <input type="text" autocomplete="off"  id="alamat" placeholder="Pribadi / Kontrak" />
             </div>
 
             <div>
@@ -205,7 +206,7 @@
 
             <div>
               <label>Waktu tempuh rumah ke kantor</label>
-              <input type="text" id="jarak_rumah" placeholder="Contoh: 1 jam" />
+              <input type="text" autocomplete="off"  id="jarak_rumah" placeholder="Contoh: 1 jam" />
             </div>
             <div>
               <label>No HP Pihak Keluarga</label>
@@ -237,7 +238,7 @@
               </div>
               <div>
                 <label>Nama & Jabatan Referensi</label>
-                <input type="text" id="ref_detail" placeholder="Nama - Jabatan (kosong bila tidak)" />
+                <input type="text" autocomplete="off"  id="ref_detail" placeholder="Nama - Jabatan (kosong bila tidak)" />
               </div>
             </div>
           </div>
@@ -374,7 +375,7 @@
             </div>
             <div>
               <label>Jika ya, jelaskan</label>
-              <input type="text" id="kesehatan_detail" placeholder="Keterangan (kosong bila tidak)" />
+              <input type="text" autocomplete="off"  id="kesehatan_detail" placeholder="Keterangan (kosong bila tidak)" />
             </div>
           </div>
         </div>
@@ -389,7 +390,7 @@
               <option value="Tidak Diterima">Tidak Diterima</option>
             </select>
             <label style="margin-left:12px">Catatan:</label>
-            <input type="text" id="catatan_penilai" placeholder="Catatan singkat pewawancara" style="flex:1" />
+            <input type="text"  autocomplete="off"  id="catatan_penilai" placeholder="Catatan singkat pewawancara" style="flex:1" />
           </div>
         </div>
 
