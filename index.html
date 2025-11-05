@@ -1,0 +1,912 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Hasil Wawancara</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --accent: #1f6feb;
+            --card: #ffffff;
+            --muted: #666;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6fb;
+            margin: 20px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 18px rgba(20, 30, 60, 0.06);
+        }
+
+        header {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .logo-frame {
+            width: 150px;
+            height: 150px;
+            border: 2px dashed #d0d7e6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #fff;
+            flex-shrink: 0;
+        }
+
+        .logo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .upload-controls {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        h2 {
+            font-size: 18px;
+            margin: 20px 0 15px 0;
+            color: #2c3e50;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        h3 {
+            font-size: 16px;
+            margin: 15px 0 10px 0;
+            color: #34495e;
+        }
+
+        .section {
+            margin: 20px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #d7dee9;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+            background: white;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(31, 111, 235, 0.1);
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .rating-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .rating-label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .rating-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .rating-controls select {
+            flex: 1;
+        }
+
+        .full {
+            grid-column: 1 / span 2;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 6px;
+            border: 0;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0d5bd9;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #585f6f;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .tanggal-besar {
+            font-size: 16px;
+            font-weight: 500;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--accent);
+            background: #f9fbff;
+            color: #1f2937;
+            text-align: center;
+        }
+
+        .note-box {
+            display: block;
+            border: 1px dashed rgba(31, 111, 235, 0.25);
+            background: linear-gradient(180deg, rgba(249, 251, 255, 0.9), rgba(243, 247, 255, 0.6));
+            padding: 12px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(31, 111, 235, 0.04);
+            color: #0f1724;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 10px 0 15px 0;
+        }
+
+        .note-box strong {
+            display: inline-block;
+            margin-right: 8px;
+            font-weight: 700;
+        }
+
+        .referensi-box {
+            border: 2px solid #d1d5db;
+            border-radius: 10px;
+            padding: 15px;
+            background: #f9fbff;
+            margin: 10px 0 20px 0;
+        }
+
+        .final-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .final-row label {
+            margin-bottom: 0;
+            white-space: nowrap;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 15mm !important;
+                font-size: 12px !important;
+                line-height: 1.3 !important;
+                color: black !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .container {
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .card {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                border: none !important;
+                background: white !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            header {
+                margin-bottom: 15px !important;
+                padding-bottom: 10px !important;
+                border-bottom: 1px solid #ddd !important;
+            }
+
+            .logo-frame {
+                border: 1px solid #ddd !important;
+                width: 120px !important;
+                height: 120px !important;
+                background: white !important;
+            }
+
+            h1 {
+                font-size: 18px !important;
+                color: black !important;
+            }
+
+            h2 {
+                font-size: 16px !important;
+                margin: 15px 0 10px 0 !important;
+                color: black !important;
+                border-bottom: 1px solid #ddd !important;
+            }
+
+            h3 {
+                font-size: 14px !important;
+                margin: 12px 0 8px 0 !important;
+                color: black !important;
+            }
+
+            .section {
+                margin: 15px 0 !important;
+                page-break-inside: avoid !important;
+            }
+
+            .grid {
+                gap: 10px !important;
+            }
+
+            .form-group {
+                margin-bottom: 10px !important;
+            }
+
+            label {
+                color: black !important;
+                font-size: 12px !important;
+            }
+
+            input[type="text"],
+            input[type="date"],
+            textarea,
+            select {
+                border: 1px solid #ccc !important;
+                background: white !important;
+                color: black !important;
+                padding: 6px 8px !important;
+                font-size: 12px !important;
+            }
+
+            .note-box {
+                border: 1px solid #ccc !important;
+                background: white !important;
+                box-shadow: none !important;
+                padding: 8px 10px !important;
+                margin: 8px 0 !important;
+                color: black !important;
+            }
+
+            .referensi-box {
+                border: 1px solid #ccc !important;
+                background: white !important;
+                padding: 10px !important;
+                margin: 8px 0 15px 0 !important;
+            }
+
+            .tanggal-besar {
+                border: 1px solid #ccc !important;
+                background: white !important;
+                color: black !important;
+            }
+
+            .buttons {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: 1;
+            }
+
+            .rating-row {
+                grid-template-columns: 1fr;
+            }
+
+            .final-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .logo-frame {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <header>
+                <div class="logo-frame" id="photoFrame">
+                    <span style="color:#99a0b3;text-align:center;padding:8px">Foto Pelamar<br />(klik untuk pilih)</span>
+                </div>
+                <div class="header-content">
+                    <h1>FORM HASIL WAWANCARA</h1>
+                    <div class="upload-controls no-print">Isi foto dengan klik area foto atau gunakan tombol <strong>"Pilih Foto"</strong>.</div>
+                </div>
+            </header>
+
+            <form id="formInterview" autocomplete="off">
+                <!-- Upload Foto -->
+                <div class="no-print" style="display:flex;gap:8px;margin-bottom:15px">
+                    <input type="file" id="photoInput" accept="image/*" style="display:none" autocomplete="off" />
+                    <button type="button" class="btn btn-primary" onclick="document.getElementById('photoInput').click()">Pilih Foto</button>
+                </div>
+
+                <!-- Tanggal & Pewawancara -->
+                <div class="section">
+                    <h2>Tanggal & Pewawancara</h2>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label for="nama">Nama Pelamar</label>
+                            <input type="text" id="nama" placeholder="Nama lengkap" required autocomplete="off" />
+                        </div>                        
+                        <div class="form-group">
+                            <label for="nama_pewawancara">Nama Pewawancara (Divisi HCC)</label>
+                            <input type="text" id="nama_pewawancara" placeholder="Isi nama pewawancara" required autocomplete="on" />
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal_wawancara">Tanggal Wawancara</label>
+                            <input type="date" id="tanggal_wawancara" class="tanggal-besar" required autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Pribadi -->
+                <div class="section">
+                    <h2>1. Data Pribadi</h2>
+                    <div class="grid">
+                        
+                        <div class="form-group">
+                            <label for="nama_cou">Nama COU / Tempat Asal melamar </label>
+                            <input type="text" id="nama_cou" placeholder="Nama COU terkait" autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label for="usia">Usia</label>
+                            <input type="text" id="usia" placeholder="Usia pelamar" autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label for="status_pernikahan">Status Pernikahan</label>
+                            <select id="status_pernikahan" required autocomplete="off">
+                                <option value="">-- Pilih Status --</option>
+                                <option value="belum_menikah">Belum menikah</option>
+                                <option value="sudah_menikah">Sudah menikah</option>
+                                <option value="cerai">Status cerai</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pendidikan">Pendidikan Terakhir</label>
+                            <input type="text" id="pendidikan" placeholder="Contoh: S1, D3, SMA" autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label for="jurusan">Jurusan</label>
+                            <input type="text" id="jurusan" placeholder="Jurusan / Program Studi" autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label for="pengalaman">Pengalaman</label>
+                            <input type="text" id="pengalaman" placeholder="Contoh: 2 tahun di bagian ..." autocomplete="off" />
+                        </div>
+                        <div class="form-group full">
+                            <label for="catatan_pengalaman">Catatan Pengalaman</label>
+                            <textarea id="catatan_pengalaman" rows="2" placeholder="Tuliskan catatan pengalaman pelamar di sini..." autocomplete="off"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat">Alamat Rumah</label>
+                            <input type="text" id="alamat" placeholder="Pribadi / Kontrak" autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label for="status_rumah">Status Rumah</label>
+                            <select id="status_rumah" required autocomplete="off">
+                                <option value="">-- Pilih Status Rumah --</option>
+                                <option value="pribadi">Rumah Pribadi</option>
+                                <option value="orang_tua">Rumah Orang Tua</option>
+                                <option value="kontrak">Rumah Kontrak/Sewa</option>
+                                <option value="saudara">Rumah Saudara</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="jarak_rumah">Waktu tempuh rumah ke kantor</label>
+                            <input type="text" id="jarak_rumah" placeholder="Contoh: 1 jam" autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label for="hp_keluarga">No HP Pihak Keluarga</label>
+                            <input type="text" id="hp_keluarga" placeholder="Orang tua / Saudara" autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label for="mengetahui_ptssi">Mengetahui tentang PT SSI</label>
+                            <select id="mengetahui_ptssi" autocomplete="off">
+                                <option value="Mengetahui">Mengetahui</option>
+                                <option value="Cukup">Cukup</option>
+                                <option value="Tidak">Tidak</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Referensi -->
+                <div class="section">
+                    <h2>Referensi</h2>
+                    <div class="referensi-box">
+                        <div class="grid">
+                            <div class="form-group">
+                                <label for="punya_ref">Apakah punya referensi?</label>
+                                <select id="punya_ref" autocomplete="off">
+                                    <option value="Tidak" selected>Tidak</option>
+                                    <option value="Ya">Ya</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ref_detail">Nama & Jabatan Referensi</label>
+                                <input type="text" id="ref_detail" placeholder="Nama - Jabatan (kosong bila tidak)" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sim">SIM Surat Izin Mengemudi</label>
+                        <select id="sim" autocomplete="off">
+                            <option value="Belum Ada" selected>Belum Ada</option>
+                            <option value="Motor">Motor</option>
+                            <option value="Mobil">Mobil</option>
+                            <option value="Motor & Mobil">Motor & Mobil</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Kemampuan Teknis -->
+                <div class="section">
+                    <h2>2. Kemampuan Dasar Teknisi</h2>
+                    <div class="note-box">
+                        <strong>Beri nilai :</strong>
+                        <span>1 = Sangat kurang, 2 = Kurang, 3 = Cukup, 4 = Baik, 5 = Sangat baik, No Asked = Tidak Ditanyakan</span>
+                    </div>
+                    <div class="grid">
+                        <div class="rating-row">
+                            <div class="rating-label">Komputer (basic)</div>
+                            <div class="rating-controls">
+                                <select id="r_komputer" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="0">No Asked</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="rating-row">
+                            <div class="rating-label">Bahasa Asing</div>
+                            <div class="rating-controls">
+                                <select id="r_bahasa" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="0">No Asked</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="rating-row">
+                            <div class="rating-label">Software</div>
+                            <div class="rating-controls">
+                                <select id="r_software" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="0">No Asked</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="rating-row">
+                            <div class="rating-label">Jenis Hardware</div>
+                            <div class="rating-controls">
+                                <select id="jenis_hardware" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="instalasi_listrik">Instalasi Listrik</option>
+                                    <option value="hardware_komputer">Hardware Komputer</option>
+                                    <option value="otomotif">Otomotif</option>
+                                    <option value="perbaikan_elektronik">Perbaikan Elektronik</option>
+                                    <option value="lainnya">Lain-lain</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="rating-row">
+                            <div class="rating-label">Hardware (perbaikan)</div>
+                            <div class="rating-controls">
+                                <select id="r_hardware" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="0">No Asked</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="rating-row">
+                            <div class="rating-label">Analisa Data / Angka</div>
+                            <div class="rating-controls">
+                                <select id="r_analisa" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="0">No Asked</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kemampuan Non-Teknis -->
+                <div class="section">
+                    <h2>3. Kemampuan Non-Teknis (beri nilai 1 - 5)</h2>
+                    <div class="grid">
+                        <div class="rating-row">
+                            <div class="rating-label">Komunikasi</div>
+                            <div class="rating-controls">
+                                <select id="n_komunikasi" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="rating-row">
+                            <div class="rating-label">Inisiatif & Proaktif</div>
+                            <div class="rating-controls">
+                                <select id="n_inisiatif" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="rating-row">
+                            <div class="rating-label">Etika / Moral</div>
+                            <div class="rating-controls">
+                                <select id="n_etika" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="rating-row">
+                            <div class="rating-label">Adaptasi</div>
+                            <div class="rating-controls">
+                                <select id="n_adaptasi" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="rating-row">
+                            <div class="rating-label">Disiplin</div>
+                            <div class="rating-controls">
+                                <select id="n_disiplin" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="rating-row">
+                            <div class="rating-label">Semangat</div>
+                            <div class="rating-controls">
+                                <select id="n_semangat" autocomplete="off">
+                                    <option value="" selected>- Pilih -</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kelebihan dan Kekurangan -->
+                <div class="section">
+                    <h2>Kelebihan dan Kekurangan</h2>
+                    <div class="form-group full">
+                        <label for="kelebihan">Kelebihan</label>
+                        <textarea id="kelebihan" placeholder="Tulis kelebihan..." rows="2" autocomplete="off"></textarea>
+                    </div>
+                    <div class="form-group full">
+                        <label for="kekurangan">Kekurangan</label>
+                        <textarea id="kekurangan" placeholder="Tulis kekurangan..." rows="2" autocomplete="off"></textarea>
+                    </div>
+                </div>
+
+                <!-- Kondisi Kesehatan -->
+                <div class="section">
+                    <h2>Kondisi Kesehatan</h2>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label for="kesehatan">Apakah memiliki penyakit kronis / menular / buta warna / penyakit berat lain?</label>
+                            <select id="kesehatan" autocomplete="off">
+                                <option value="Tidak" selected>Tidak</option>
+                                <option value="Ya - kronis">Ya - Kronis</option>
+                                <option value="Ya - menular">Ya - Menular</option>
+                                <option value="Ya - buta warna">Ya - Buta Warna</option>
+                                <option value="Ya - lain">Ya - Lainnya (sebutkan)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="kesehatan_detail">Jika ya, jelaskan</label>
+                            <input type="text" id="kesehatan_detail" placeholder="Keterangan (kosong bila tidak)" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Penilaian Pewawancara -->
+                <div class="section">
+                    <h2>Penilaian Pewawancara</h2>
+                    <div class="final-row">
+                        <label for="keputusan">Keputusan:</label>
+                        <select id="keputusan" autocomplete="off">
+                            <option value="Diterima">Diterima</option>
+                            <option value="Tidak Diterima">Tidak Diterima</option>
+                        </select>
+                        <label for="catatan_penilai">Catatan:</label>
+                        <input type="text" id="catatan_penilai" placeholder="Catatan singkat pewawancara" style="flex:1" autocomplete="off" />
+                    </div>
+                </div>
+
+                <!-- Catatan Tambahan -->
+                <div class="section no-print" style="text-align:right">
+                    <button type="button" class="btn btn-secondary" onclick="toggleCatatan()">Tambah Catatan</button>
+                    <div id="catatanBox" style="display:none;margin-top:15px">
+                        <label for="catatan_tambahan" style="font-weight:600;display:block;margin-bottom:8px;text-align:left">Catatan Tambahan</label>
+                        <textarea id="catatan_tambahan" placeholder="Tulis catatan tambahan di sini..." style="width:100%;min-height:80px" autocomplete="off"></textarea>
+                    </div>
+                </div>
+
+                <!-- Tombol Aksi -->
+                <div class="buttons no-print">
+                    <button type="button" class="btn btn-primary" onclick="printForm()">Print / Save</button>
+                    <button type="button" class="btn btn-danger" onclick="clearAllData()">Hapus Semua Data</button>
+                </div>
+            </form>
+            <button type="button" class="btn btn-primary" onclick="submitToGoogleSheet()">Kirim ke Google Sheet</button>
+
+        </div>
+
+        <p style="margin-top:15px;color:#556" class="no-print">
+            Tips: Klik tombol "Print / Save" lalu pilih "Save as PDF" untuk menyimpan sebagai file PDF.
+        </p>
+    </div>
+
+   <script>
+const photoInput = document.getElementById('photoInput');
+const photoFrame = document.getElementById('photoFrame');
+
+// Upload dan tampilkan foto
+photoInput.addEventListener('change', function(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    photoFrame.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = evt.target.result;
+    photoFrame.appendChild(img);
+    localStorage.setItem("foto_pelamar", evt.target.result);
+  };
+  reader.readAsDataURL(file);
+});
+
+// Simpan data input ke localStorage
+document.querySelectorAll("input, textarea, select").forEach(el => {
+  el.addEventListener("input", function() {
+    localStorage.setItem(this.id, this.value);
+  });
+});
+
+// Muat kembali data dari localStorage
+window.addEventListener("load", function() {
+  document.querySelectorAll("input, textarea, select").forEach(el => {
+    const val = localStorage.getItem(el.id);
+    if (val !== null) el.value = val;
+  });
+  const foto = localStorage.getItem("foto_pelamar");
+  if (foto) {
+    photoFrame.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = foto;
+    photoFrame.appendChild(img);
+  }
+});
+
+// Tombol cetak
+function printForm() {
+  window.print();
+}
+
+// Hapus semua data
+function clearAllData() {
+  if (confirm("Yakin ingin menghapus semua data termasuk foto?")) {
+    localStorage.clear();
+    alert("Semua data berhasil dihapus!");
+    location.reload();
+  }
+}
+
+// Toggle catatan tambahan
+function toggleCatatan() {
+  const box = document.getElementById('catatanBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+
+
+// Klik frame foto → buka input file
+photoFrame.addEventListener('click', () => document.getElementById('photoInput').click());
+
+// URL Apps Script
+const scriptURL = "https://script.google.com/macros/s/AKfycbyxvopU6yUrWFN1f2wL6-HL7DSFNjSlEkHUK73iHDQV1s-_dDufX77N4ecBHSXi8aBcaQ/exec";
+
+// Kirim data ke Google Sheet
+async function submitToGoogleSheet() {
+  const formData = {};
+  document.querySelectorAll("input, textarea, select").forEach(el => {
+    formData[el.id] = el.value || "";
+  });
+
+  // Deteksi apakah dijalankan secara lokal
+  const isLocal = location.origin === "null" || location.protocol === "file:";
+
+  try {
+    const response = await fetch(scriptURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      mode: isLocal ? "no-cors" : "cors", // otomatis sesuaikan
+      body: JSON.stringify(formData)
+    });
+
+    if (isLocal) {
+      alert("✅ Data dikirim (mode lokal: tidak bisa baca respon, tapi data tetap masuk ke Sheet).");
+      return;
+    }
+
+    const result = await response.json();
+    if (result.result === "success") {
+      alert("✅ Data berhasil dikirim ke Google Sheet!");
+    } else {
+      alert("⚠️ Gagal mengirim data, coba lagi.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("❌ Terjadi kesalahan saat mengirim data!");
+  }
+}
+</script>
+
+</html>
