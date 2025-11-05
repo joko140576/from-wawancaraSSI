@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Hasil Wawancara</title>
     <style>
+        /* CSS Anda tetap sama, tidak ada perubahan */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -414,6 +413,27 @@
                 margin: 0 auto;
             }
         }
+
+        /* Loading indicator */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -795,10 +815,11 @@
                 <div class="buttons no-print">
                     <button type="button" class="btn btn-primary" onclick="printForm()">Print / Save</button>
                     <button type="button" class="btn btn-danger" onclick="clearAllData()">Hapus Semua Data</button>
+                    <button type="button" class="btn btn-primary" id="submitButton" onclick="submitToGoogleSheet()">
+                        <span id="submitText">Kirim ke Google Sheet</span>
+                    </button>
                 </div>
             </form>
-            <button type="button" class="btn btn-primary" onclick="submitToGoogleSheet()">Kirim ke Google Sheet</button>
-
         </div>
 
         <p style="margin-top:15px;color:#556" class="no-print">
@@ -809,6 +830,11 @@
    <script>
 const photoInput = document.getElementById('photoInput');
 const photoFrame = document.getElementById('photoFrame');
+const submitButton = document.getElementById('submitButton');
+const submitText = document.getElementById('submitText');
+
+// URL Apps Script
+const scriptURL = "https://script.google.com/macros/s/AKfycby4vEVofsZIXpM6VUp-LjHEGjDAE7pbjBXSf8z0B58VOb6JyCB1COe-yFSXiAZLhRjq1Q/exec";
 
 // Upload dan tampilkan foto
 photoInput.addEventListener('change', function(e) {
@@ -867,47 +893,106 @@ function toggleCatatan() {
   box.style.display = box.style.display === 'none' ? 'block' : 'none';
 }
 
-
 // Klik frame foto → buka input file
 photoFrame.addEventListener('click', () => document.getElementById('photoInput').click());
 
-// URL Apps Script
-const scriptURL = "https://script.google.com/macros/s/AKfycbxVbQvY5Xo9_Sb12SKv7qcdzP-lcPaTOTwX2_wWbhkNjALK-mrpoAFtS7wu7iC08ZAJTQ/exec";
-
 // Kirim data ke Google Sheet
 async function submitToGoogleSheet() {
+  // Validasi form
+  const requiredFields = ['nama', 'nama_pewawancara', 'tanggal_wawancara'];
+  for (const fieldId of requiredFields) {
+    const field = document.getElementById(fieldId);
+    if (!field.value.trim()) {
+      alert(`Harap isi field ${field.previousElementSibling.textContent}`);
+      field.focus();
+      return;
+    }
+  }
+
+  // Tampilkan loading
+  submitButton.disabled = true;
+  submitText.innerHTML = '<div class="loading"></div>Mengirim...';
+
+  // Kumpulkan data
   const formData = {};
   document.querySelectorAll("input, textarea, select").forEach(el => {
     formData[el.id] = el.value || "";
   });
 
-  // Deteksi apakah dijalankan secara lokal
-  const isLocal = location.origin === "null" || location.protocol === "file:";
-
   try {
     const response = await fetch(scriptURL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      mode: isLocal ? "no-cors" : "cors", // otomatis sesuaikan
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
       body: JSON.stringify(formData)
     });
 
-    if (isLocal) {
-      alert("✅ Data telah terkirim ke spreadsheet ");
-      return;
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const result = await response.json();
+    
     if (result.result === "success") {
       alert("✅ Data berhasil dikirim ke Google Sheet!");
+      // Opsional: reset form setelah berhasil
+      // document.getElementById('formInterview').reset();
+      // localStorage.clear();
     } else {
-      alert("⚠️ Gagal mengirim data, coba lagi.");
+      throw new Error(result.message || "Gagal mengirim data");
     }
   } catch (error) {
     console.error("Error:", error);
-    alert("❌ Terjadi kesalahan saat mengirim data!");
+    
+    // Fallback: gunakan Google Forms jika Apps Script gagal
+    if (confirm("Gagal mengirim ke Google Sheet. Ingin mencoba metode alternatif?")) {
+      submitViaGoogleForms(formData);
+    } else {
+      alert("❌ Gagal mengirim data: " + error.message);
+    }
+  } finally {
+    // Reset button state
+    submitButton.disabled = false;
+    submitText.textContent = "Kirim ke Google Sheet";
   }
 }
+
+// Metode alternatif menggunakan Google Forms
+function submitViaGoogleForms(formData) {
+  // Anda perlu membuat Google Forms yang sesuai dan menyesuaikan ID field
+  const formURL = "YOUR_GOOGLE_FORM_URL_HERE"; // Ganti dengan URL Google Forms Anda
+  
+  // Buat form sementara
+  const tempForm = document.createElement('form');
+  tempForm.method = 'POST';
+  tempForm.action = formURL;
+  tempForm.target = '_blank';
+  tempForm.style.display = 'none';
+  
+  // Tambahkan field ke form
+  for (const key in formData) {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = key;
+    input.value = formData[key];
+    tempForm.appendChild(input);
+  }
+  
+  document.body.appendChild(tempForm);
+  tempForm.submit();
+  document.body.removeChild(tempForm);
+  
+  alert("Form telah dibuka di tab baru. Silakan submit manual.");
+}
+
+// Event listener untuk form submission
+document.getElementById('formInterview').addEventListener('submit', function(e) {
+  e.preventDefault();
+  submitToGoogleSheet();
+});
 </script>
 
+</body>
 </html>
