@@ -1,49 +1,94 @@
 function doPost(e) {
-  try {
-    // ✅ Buka spreadsheet tujuan
-    const ss = SpreadsheetApp.openById("1mlw70bbYPm87hJwXde7cn9geKdxVEwBqCbAPapwDlWY"); // GANTI dengan ID Sheet kamu
-    const sheet = ss.getSheetByName("Sheet1"); // GANTI jika nama sheet lain
+  const ss = SpreadsheetApp.openById("1mlw70bbYPm87hJwXde7cn9geKdxVEwBqCbAPapwDlWY");
+  const sheet = ss.getSheetByName("Sheet1");
+  const data = JSON.parse(e.postData.contents);
 
-    // ✅ Parse data JSON dari HTML
-    const data = JSON.parse(e.postData.contents);
-
-    // ✅ Ambil header dan nilai
-    const headers = Object.keys(data);
-    const values = Object.values(data);
-
-    // ✅ Jika sheet masih kosong, buat header otomatis
-    if (sheet.getLastRow() === 0) {
-      sheet.appendRow(["Timestamp", ...headers]);
-    }
-
-    // ✅ Tambahkan baris baru (dengan waktu kirim)
-    sheet.appendRow([new Date(), ...values]);
-
-    // ✅ Kirim respon sukses ke browser
-    return ContentService
-      .createTextOutput(JSON.stringify({ result: "success" }))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeader("Access-Control-Allow-Origin", "*")
-      .setHeader("Access-Control-Allow-Methods", "POST, OPTIONS")
-      .setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-  } catch (err) {
-    // ✅ Jika gagal, kirim pesan error
-    return ContentService
-      .createTextOutput(JSON.stringify({ result: "error", message: err.message }))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeader("Access-Control-Allow-Origin", "*")
-      .setHeader("Access-Control-Allow-Methods", "POST, OPTIONS")
-      .setHeader("Access-Control-Allow-Headers", "Content-Type");
+  // Buat header sekali jika sheet masih kosong
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow([
+      "Timestamp",
+      "Nama Pelamar",
+      "Nama Pewawancara",
+      "Tanggal Wawancara",
+      "Nama COU",
+      "Usia",
+      "Status Pernikahan ",
+      "Pendidikan ",
+      "Jurusan",
+      "Pengalaman",
+      "Catatan Pengalaman",
+      "Alamat",
+      "Status Rumah",
+      "Jarak Rumah",
+      "HP Keluarga ",
+      "Mengetahui PT SSI ",
+      "Punya Referensi",
+      "Detail Referensi ",
+      "SIM",
+      "Nilai Komputer",
+      "Bahasa",
+      "Software",
+      "Jenis Hardware",
+      "Hardware",
+      "Analisa",
+      "Komunikasi",
+      "Inisiatif",
+      "Etika",
+      "Adaptasi",
+      "Disiplin",
+      "Semangat",
+      "Kelebihan",
+      "Kekurangan",
+      "Kesehatan",
+      "Detail Kesehatan",
+      "Keputusan",
+      "Catatan Penilai",
+      "catatan tambahan "
+    ]);
   }
-}
 
-// ✅ Handle preflight request (CORS)
-function doOptions(e) {
-  return ContentService
-    .createTextOutput("")
-    .setMimeType(ContentService.MimeType.JSON)
-    .setHeader("Access-Control-Allow-Origin", "*")
-    .setHeader("Access-Control-Allow-Methods", "POST, OPTIONS")
-    .setHeader("Access-Control-Allow-Headers", "Content-Type");
+  // **Tulis baris sesuai ID input HTML**
+  sheet.appendRow([
+    new Date(),
+    data.nama,
+    data.nama_pewawancara,
+    data.tanggal_wawancara,
+    data.nama_cou,
+    data.usia,
+    data.status_pernikahan,
+    data.pendidikan,
+    data.jurusan,
+    data.pengalaman,
+    data.catatan_pengalaman,
+    data.alamat,
+    data.status_rumah,
+    data.jarak_rumah,
+    data.hp_keluarga,
+    data.mengetahui_ptssi,
+    data.punya_ref,
+    data.ref_detail,
+    data.sim,
+    data.r_komputer,
+    data.r_bahasa,
+    data.r_software,
+    data.jenis_hardware,
+    data.r_hardware,
+    data.r_analisa,
+    data.n_komunikasi,
+    data.n_inisiatif,
+    data.n_etika,
+    data.n_adaptasi,
+    data.n_disiplin,
+    data.n_semangat,
+    data.kelebihan,
+    data.kekurangan,
+    data.kesehatan,
+    data.kesehatan_detail,
+    data.keputusan,
+    data.catatanBox,
+    data.catatan_tambahan
+
+  ]);
+
+  return ContentService.createTextOutput("OK");
 }
