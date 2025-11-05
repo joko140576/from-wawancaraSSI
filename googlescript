@@ -1,0 +1,49 @@
+function doPost(e) {
+  try {
+    // ✅ Buka spreadsheet tujuan
+    const ss = SpreadsheetApp.openById("1mlw70bbYPm87hJwXde7cn9geKdxVEwBqCbAPapwDlWY"); // GANTI dengan ID Sheet kamu
+    const sheet = ss.getSheetByName("Sheet1"); // GANTI jika nama sheet lain
+
+    // ✅ Parse data JSON dari HTML
+    const data = JSON.parse(e.postData.contents);
+
+    // ✅ Ambil header dan nilai
+    const headers = Object.keys(data);
+    const values = Object.values(data);
+
+    // ✅ Jika sheet masih kosong, buat header otomatis
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(["Timestamp", ...headers]);
+    }
+
+    // ✅ Tambahkan baris baru (dengan waktu kirim)
+    sheet.appendRow([new Date(), ...values]);
+
+    // ✅ Kirim respon sukses ke browser
+    return ContentService
+      .createTextOutput(JSON.stringify({ result: "success" }))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeader("Access-Control-Allow-Origin", "*")
+      .setHeader("Access-Control-Allow-Methods", "POST, OPTIONS")
+      .setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  } catch (err) {
+    // ✅ Jika gagal, kirim pesan error
+    return ContentService
+      .createTextOutput(JSON.stringify({ result: "error", message: err.message }))
+      .setMimeType(ContentService.MimeType.JSON)
+      .setHeader("Access-Control-Allow-Origin", "*")
+      .setHeader("Access-Control-Allow-Methods", "POST, OPTIONS")
+      .setHeader("Access-Control-Allow-Headers", "Content-Type");
+  }
+}
+
+// ✅ Handle preflight request (CORS)
+function doOptions(e) {
+  return ContentService
+    .createTextOutput("")
+    .setMimeType(ContentService.MimeType.JSON)
+    .setHeader("Access-Control-Allow-Origin", "*")
+    .setHeader("Access-Control-Allow-Methods", "POST, OPTIONS")
+    .setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
