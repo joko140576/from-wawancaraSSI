@@ -871,7 +871,7 @@ function toggleCatatan() {
 photoFrame.addEventListener('click', () => document.getElementById('photoInput').click());
 
 // URL Apps Script
-const scriptURL = "https://script.google.com/macros/s/AKfycbyxvopU6yUrWFN1f2wL6-HL7DSFNjSlEkHUK73iHDQV1s-_dDufX77N4ecBHSXi8aBcaQ/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbyNbwF9lewVDEoPn2S65TMlXBrg2HToa67bNBymIAizK0eLUd4pD4GMn4dh3FcyJKu1qQ/exec";
 
 // Kirim data ke Google Sheet
 async function submitToGoogleSheet() {
@@ -892,7 +892,7 @@ async function submitToGoogleSheet() {
     });
 
     if (isLocal) {
-      alert("✅ Data dikirim (mode lokal: tidak bisa baca respon, tapi data tetap masuk ke Sheet).");
+      alert("✅ Data telah terkirim ke spreadsheet ");
       return;
     }
 
